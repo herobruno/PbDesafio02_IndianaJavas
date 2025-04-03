@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CategoryController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-products</a> &gt; <a href="index.source.html" class="el_package">indiana.javas.msproducts.controllers</a> &gt; <span class="el_source">CategoryController.java</span></div><h1>CategoryController.java</h1><pre class="source lang-java linenums">package indiana.javas.msproducts.controllers;
+
+import indiana.javas.msproducts.dto.CategoryDto;
+import indiana.javas.msproducts.dto.CategoryReponseDto;
+import indiana.javas.msproducts.dto.mapper.CategoryMapper;
+import indiana.javas.msproducts.entities.Category;
+import indiana.javas.msproducts.services.CategoryService;
+import jakarta.validation.Valid;
+import lombok.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RequiredArgsConstructor
+@RestController
+@RequestMapping(&quot;api/v1/categories&quot;)
+public class CategoryController {
+
+    private final CategoryService categoryService;
+
+    @PostMapping
+    public ResponseEntity&lt;CategoryReponseDto&gt; createCategory(@Valid @RequestBody CategoryDto categoryDto) {
+<span class="fc" id="L25">        Category category = categoryService.createCategory(CategoryMapper.toCategory(categoryDto));</span>
+<span class="fc" id="L26">        return ResponseEntity.status(HttpStatus.CREATED).body(CategoryMapper.toDto(category));</span>
+    }
+
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;CategoryReponseDto&gt; updateCategory(@Valid @PathVariable Long id, @RequestBody CategoryDto item) {
+<span class="nc" id="L31">        Category category = categoryService.update(id, CategoryMapper.toCategory(item));</span>
+<span class="nc" id="L32">        return ResponseEntity.ok(CategoryMapper.toDto(category));</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;CategoryReponseDto&gt; findById(@PathVariable Long id) {
+<span class="fc" id="L37">        Category category = categoryService.findById(id);</span>
+<span class="fc" id="L38">        return ResponseEntity.ok(CategoryMapper.toDto(category));</span>
+    }
+
+    @GetMapping
+    public ResponseEntity&lt;List&lt;CategoryReponseDto&gt;&gt; findAll() {
+<span class="fc" id="L43">        List&lt;Category&gt; categories = categoryService.findAll();</span>
+<span class="fc" id="L44">        return ResponseEntity.ok(CategoryMapper.toListDto(categories));</span>
+    }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteById(@Valid @PathVariable Long id) {
+<span class="fc" id="L49">        categoryService.delete(id);</span>
+<span class="fc" id="L50">        return ResponseEntity.noContent().build();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

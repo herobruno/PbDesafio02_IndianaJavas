@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-products</a> &gt; <a href="index.source.html" class="el_package">indiana.javas.msproducts.dto.mapper</a> &gt; <span class="el_source">ProductMapper.java</span></div><h1>ProductMapper.java</h1><pre class="source lang-java linenums">package indiana.javas.msproducts.dto.mapper;
+
+import indiana.javas.msproducts.dto.ProductDto;
+import indiana.javas.msproducts.dto.ProductResponseDto;
+import indiana.javas.msproducts.entities.Product;
+import org.modelmapper.ModelMapper;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+<span class="fc" id="L11">public class ProductMapper {</span>
+
+    public static Product toProduct(ProductDto dto) {
+<span class="fc" id="L14">        return new ModelMapper().map(dto, Product.class);</span>
+    }
+
+    public static ProductResponseDto toDto(Product product) {
+<span class="fc" id="L18">        return new ModelMapper().map(product, ProductResponseDto.class);</span>
+    }
+
+    public static List&lt;ProductResponseDto&gt; toListDto(List&lt;Product&gt; products) {
+<span class="fc" id="L22">        return products.stream().map(ProductMapper::toDto).collect(Collectors.toList());</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

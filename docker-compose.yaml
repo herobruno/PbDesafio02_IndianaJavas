@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  gateway:
+    build: ./gateway
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - ms-authorization
+      - ms-products
+
+  ms-products:
+    build: ./ms-products
+    ports:
+      - "8081:8081"
+    env_file:
+      - .env
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME_PRODUCTS}
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - postgres
+
+  ms-authorization:
+    build: ./ms-authorization
+    ports:
+      - "8083:8083" 
+    env_file:
+      - .env
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME_AUTH}
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  ms-notification:
+    build: ./ms-notification
+    ports:
+      - "8082:8082"
+    env_file:
+      - .env
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME_NOTIFICATIONS}
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_MAIL_HOST=${MAIL_HOST}
+      - SPRING_MAIL_PORT=${MAIL_PORT}
+      - SPRING_MAIL_USERNAME=${MAIL_USERNAME}
+      - SPRING_MAIL_PASSWORD=${MAIL_PASSWORD}
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  postgres:
+    image: postgres:15.7
+    restart: unless-stopped
+    container_name: postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME_PRODUCTS}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+
+volumes:
+  postgres_data:
+

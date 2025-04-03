@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CategoryService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-products</a> &gt; <a href="index.source.html" class="el_package">indiana.javas.msproducts.services</a> &gt; <span class="el_source">CategoryService.java</span></div><h1>CategoryService.java</h1><pre class="source lang-java linenums">package indiana.javas.msproducts.services;
+
+import indiana.javas.msproducts.exceptions.CategoryNotFoundException;
+import indiana.javas.msproducts.exceptions.DuplicateCategoryNameException;
+import indiana.javas.msproducts.exceptions.ResourceNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+import indiana.javas.msproducts.entities.Category;
+import indiana.javas.msproducts.repositories.CategoryRepository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+
+@Service
+public class CategoryService {
+
+    private final CategoryRepository categoryRepository;
+
+<span class="fc" id="L20">    public CategoryService(CategoryRepository categoryRepository) {</span>
+<span class="fc" id="L21">        this.categoryRepository = categoryRepository;</span>
+<span class="fc" id="L22">    }</span>
+
+    private static final String DUPLICATE_MESSAGE = &quot;Category '%s' already exists&quot;;
+
+    @Transactional
+    public Category createCategory(Category category) {
+        try {
+<span class="fc" id="L29">            return categoryRepository.save(category);</span>
+<span class="fc" id="L30">        } catch (DataIntegrityViolationException e) {</span>
+<span class="fc" id="L31">            throw new DuplicateCategoryNameException(String.format(DUPLICATE_MESSAGE , category.getName()));</span>
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Category findById(Long id) {
+<span class="pc" id="L37">        return categoryRepository.findById(id).orElseThrow(() -&gt; new CategoryNotFoundException(String.format(&quot;category not found with id '%s' &quot;, id)));</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;Category&gt; findAll() {
+<span class="fc" id="L42">        return categoryRepository.findAll();</span>
+    }
+
+    @Transactional
+    public Category update(Long id, Category item) {
+<span class="nc" id="L47">        Category category = findById(id);</span>
+
+<span class="nc" id="L49">        boolean nameAlreadyExists = categoryRepository.existsByName(item.getName());</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (nameAlreadyExists) {</span>
+<span class="nc" id="L51">            throw new DuplicateCategoryNameException(String.format(DUPLICATE_MESSAGE , item.getName()));</span>
+        }
+
+<span class="nc" id="L54">        category.setName(item.getName());</span>
+<span class="nc" id="L55">        return categoryRepository.save(category);</span>
+    }
+
+    @Transactional
+    public void delete(Long id) {
+<span class="fc" id="L60">        categoryRepository.deleteById(id);</span>
+<span class="fc" id="L61">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

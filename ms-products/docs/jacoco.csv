@@ -1,0 +1,10 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+ms-products,indiana.javas.msproducts.dto.mapper,CategoryMapper,3,24,0,0,1,3,1,3,1,3
+ms-products,indiana.javas.msproducts.dto.mapper,ProductMapper,0,27,0,0,0,4,0,4,0,4
+ms-products,indiana.javas.msproducts.services,JwtTokenService,4,6,0,0,1,3,0,2,0,2
+ms-products,indiana.javas.msproducts.services,ProductService,6,110,0,2,0,26,1,8,1,7
+ms-products,indiana.javas.msproducts.services,CategoryService,44,47,2,0,6,10,3,5,2,5
+ms-products,indiana.javas.msproducts.entities,Category,15,30,0,0,5,11,3,5,3,5
+ms-products,indiana.javas.msproducts.entities,Product,19,29,0,0,1,10,1,1,1,1
+ms-products,indiana.javas.msproducts.controllers,ProductControllers,42,38,2,2,11,8,3,4,2,3
+ms-products,indiana.javas.msproducts.controllers,CategoryController,11,36,0,0,2,8,1,4,1,4

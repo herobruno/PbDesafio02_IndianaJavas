@@ -1,0 +1,53 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: authorization-post-users
+          uri: http://localhost:8083
+          predicates:
+            - Path=/users
+        - id: authorization-get-users-by-id
+          uri: http://localhost:8083
+          predicates:
+            - Path=/users/{id}
+        - id: authorization-put-user-by-id
+          uri: http://localhost:8083
+          predicates:
+            - Path=/users/{id}
+        - id: authorization-post-oauth-token
+          uri: http://localhost:8083
+          predicates:
+            - Path=/oauth/token
+
+        - id: products-post-products
+          uri: http://localhost:8081
+          predicates:
+            - Path=/products
+        - id: products-get-product-by-id
+          uri: http://localhost:8081
+          predicates:
+            - Path=/products/{id}
+        - id: products-get-products-paginated
+          uri: http://localhost:8081
+          predicates:
+            - Path=/products
+        - id: products-delete-product-by-id
+          uri: http://localhost:8081
+          predicates:
+            - Path=/products/{id}
+        - id: categories-post-categories
+          uri: http://localhost:8081
+          predicates:
+            - Path=/categories
+        - id: categories-get-category-by-id
+          uri: http://localhost:8081
+          predicates:
+            - Path=/categories/{id}
+        - id: categories-delete-category-by-id
+          uri: http://localhost:8081
+          predicates:
+            - Path=/categories/{id}
+        - id: categories-put-category-by-id
+          uri: http://localhost:8081
+          predicates:
+            - Path=/categories/{id}
