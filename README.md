@@ -38,4 +38,3 @@ Agradecimento especial aos contribuidores deste projeto:
 | Petterini | [@petterini](https://github.com/petterini) |
 | Gabriel RQ | [@Gabriel-RQ](https://github.com/Gabriel-RQ) |
 
-Se você também contribuiu para este projeto, sinta-se à vontade para adicionar seu nome! 🚀
